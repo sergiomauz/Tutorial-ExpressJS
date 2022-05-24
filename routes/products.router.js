@@ -20,31 +20,8 @@ router.get('/', (req, res) => {
     ])
 });
 
-router.get('/:search', (req, res) => {
-    const { id } = req.params;
-    const productsList = [{
-            "ID": 1,
-            "Product": "Product four",
-            "Price": 250.75
-        },
-        {
-            "ID": 2,
-            "Product": "Product five",
-            "Price": 450.25
-        },
-        {
-            "ID": 3,
-            "Product": "Product sechs",
-            "Price": 650.55
-        }
-    ];
-
-    let selectedProduct = productsList.filter(q => q.ID == id);
-    if (selectedProduct.length > 0) {
-        res.json(selectedProduct);
-    } else {
-        res.send('Product not found');
-    }
+router.get('/queries', (req, res) => {
+    res.send(req.query);
 });
 
 router.get('/:id', (req, res) => {
@@ -73,5 +50,11 @@ router.get('/:id', (req, res) => {
         res.send('Product not found');
     }
 });
+
+router.get('/:id/params/:search', (req, res) => {
+    res.send(req.params);
+});
+
+
 
 module.exports = router;
