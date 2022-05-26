@@ -5,48 +5,50 @@ class TasksService {
     constructor() {};
 
     async create(request) {
-        try {
-            const task = Task(request.body);
-            const taskSaved = await task.save();
+        const task = Task(request.body);
+        const taskSaved = await task.save();
 
-            return taskSaved;
-        } catch (error) {
-            throw boom.badRequest('Bad request. Try again.');
-        }
+        return taskSaved;
     };
 
     async list(request) {
-        try {
-            const tasksList = await Task.find().lean();
+        const tasksList = await Task.find().lean();
 
-            return tasksList;
-        } catch (error) {
-            throw boom.notFound('Tasks not found');
-        }
+        return tasksList;
     };
 
     async show(request) {
-        try {
-            const { id } = request.params;
-            const selectedTask = await Task.findById(id);
+        const { id } = request.params;
+        const selectedTask = await Task.findById(id).lean();
 
-            if (!selectedTask) {
-                throw boom.notFound('Task not found');
-            }
-
-            return selectedTask;
-        } catch (error) {
-            // throw boom.notFound('Task not found');
+        if (!selectedTask) {
+            throw boom.notFound('Task not found');
         }
+
+        return selectedTask;
     };
 
+    async update(request) {
+        const { id } = request.params;
+        const body = request.body;
+        const updatedTask = await Task.findByIdAndUpdate(id, body);
 
-    update() {
+        if (!updatedTask) {
+            throw boom.notFound('Task not found');
+        }
 
+        return updatedTask;
     };
 
-    delete() {
+    async delete(request) {
+        const { id } = request.params;
+        const deletedTask = await Task.findByIdAndDelete(id);
 
+        if (!deletedTask) {
+            throw boom.notFound('Task not found');
+        }
+
+        return deletedTask;
     };
 }
 

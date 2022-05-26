@@ -20,35 +20,18 @@ router.get('/:id', async(req, res, next) => {
     const selectedTask = await service.show(req);
 
     res.json(selectedTask);
-    // try {
-    //     const selectedTask = await service.show(req);
-
-    //     res.json(selectedTask);
-
-
-    //     const { id } = req.params;
-    //     const article = service.show(id);
-
-    //     if (article) {
-    //         res.status(200).json(article);
-    //     } else {
-    //         res.status(404).send('Article not found');
-    //     }
-    // } catch (error) {
-    //     next(error);
-    // }
 });
 
-router.put('/:id', (req, res) => {
-    res.json({
-        "body": req.body,
-        "params": req.params
-    });
+router.put('/:id', async(req, res) => {
+    const updatedTask = await service.update(req);
+
+    res.json(updatedTask);
 });
 
-router.delete('/:id', (req, res) => {
-    res.json(req.params);
-});
+router.delete('/:id', async(req, res, next) => {
+    const deletedTask = await service.delete(req);
 
+    res.json(deletedTask);
+});
 
 module.exports = router;
